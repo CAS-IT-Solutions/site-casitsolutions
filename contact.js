@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     return {
       from: 'Acme <onboarding@resend.dev>',
-      to: ['cesar@casitsolutions.com.br'],
+      to: ['delivered@resend.dev'],
       reply_to: trimmed.email,
       subject: 'Novo contato recebido - Fale Conosco',
       html,
