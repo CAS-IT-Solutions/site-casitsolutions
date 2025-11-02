@@ -6,6 +6,8 @@ import { fileURLToPath } from 'url';
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const projectRoot = path.join(__dirname, '..');
+const publicDir = path.join(projectRoot, 'public');
 
 const CONTACT_EMAIL = 'cesar@casitsolutions.com.br';
 const FROM_EMAIL = 'CAS It Solutions <onboarding@resend.dev>';
@@ -57,7 +59,7 @@ const buildEmailContent = ({ nome, empresa, email, mensagem }) => {
 };
 
 app.use(express.json());
-app.use(express.static(__dirname, { extensions: ['html'] }));
+app.use(express.static(publicDir, { extensions: ['html'] }));
 
 app.post('/api/contact', async (req, res) => {
   const { nome, empresa, email, mensagem } = req.body || {};
@@ -118,7 +120,7 @@ app.post('/api/contact', async (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(publicDir, 'index.html'));
 });
 
 const port = process.env.PORT || 3000;
