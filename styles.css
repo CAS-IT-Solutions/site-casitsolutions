@@ -270,6 +270,23 @@ footer {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.card-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  background: linear-gradient(140deg, rgba(0, 82, 204, 0.18), rgba(0, 180, 216, 0.18));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: -6px 0 18px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+
+.card-icon svg {
+  width: 42px;
+  height: 42px;
+}
+
 .card h3 {
   margin: 0 0 14px;
   font-weight: 600;
@@ -346,6 +363,22 @@ footer {
   padding: 36px;
   box-shadow: var(--shadow-card);
   border: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.founder-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 24px;
+  background: linear-gradient(145deg, rgba(0, 82, 204, 0.15), rgba(0, 180, 216, 0.25));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.3rem;
+  letter-spacing: 0.08em;
+  color: #0f172a;
+  margin-bottom: 20px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
 }
 
 .founder-card h3 {
@@ -619,6 +652,24 @@ footer {
 
   .section {
     padding: 72px 20px;
+  }
+
+  .card-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 18px;
+  }
+
+  .card-icon svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  .founder-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 22px;
+    font-size: 1.1rem;
   }
 
   .contact-grid {
