@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ].join('\n');
 
     return {
-      from: 'CAS It Solutions <contato@casitsolutions.com.br>',
+      from: 'Acme <onboarding@resend.dev>',
       to: ['cesar@casitsolutions.com.br'],
       reply_to: trimmed.email,
       subject: 'Novo contato recebido - Fale Conosco',
