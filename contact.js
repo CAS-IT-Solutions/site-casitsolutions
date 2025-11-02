@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const RESEND_ENDPOINT = 'https://api.resend.com/emails';
-  const RESEND_API_KEY = 're_MwLJ73NS_63Ni3wR6zZbB13EFHiiagyqK';
+  const CONTACT_ENDPOINT = '/api/contact';
 
   const form = document.querySelector('.contact-form');
   if (!form) {
@@ -18,18 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const isFilled = (value) => typeof value === 'string' && value.trim().length > 0;
-  const escapeHtml = (value) =>
-    String(value).replace(/[&<>"']/g, (char) =>
-      ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#39;'
-      })[char] || char
-    );
 
-  const buildEmailPayload = ({ nome, empresa, email, mensagem }) => {
+  const buildPayload = ({ nome, empresa, email, mensagem }) => {
     const trimmed = {
       nome: nome.trim(),
       empresa: empresa.trim(),
@@ -37,49 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
       mensagem: mensagem.trim()
     };
 
-    const html = `
-      <h2>Novo contato via Fale Conosco</h2>
-      <p>Um usuário preencheu todos os campos do formulário.</p>
-      <table style="border-collapse:collapse;width:100%;max-width:520px;">
-        <tbody>
-          <tr>
-            <td style="padding:8px 12px;border:1px solid #d1d5db;font-weight:600;">Nome</td>
-            <td style="padding:8px 12px;border:1px solid #d1d5db;">${escapeHtml(trimmed.nome)}</td>
-          </tr>
-          <tr>
-            <td style="padding:8px 12px;border:1px solid #d1d5db;font-weight:600;">Empresa</td>
-            <td style="padding:8px 12px;border:1px solid #d1d5db;">${escapeHtml(trimmed.empresa)}</td>
-          </tr>
-          <tr>
-            <td style="padding:8px 12px;border:1px solid #d1d5db;font-weight:600;">E-mail</td>
-            <td style="padding:8px 12px;border:1px solid #d1d5db;">${escapeHtml(trimmed.email)}</td>
-          </tr>
-          <tr>
-            <td style="padding:8px 12px;border:1px solid #d1d5db;font-weight:600;">Mensagem</td>
-            <td style="padding:8px 12px;border:1px solid #d1d5db;white-space:pre-wrap;">${escapeHtml(trimmed.mensagem)}</td>
-          </tr>
-        </tbody>
-      </table>
-    `;
-
-    const text = [
-      'Novo contato via Fale Conosco',
-      '',
-      `Nome: ${trimmed.nome}`,
-      `Empresa: ${trimmed.empresa}`,
-      `E-mail: ${trimmed.email}`,
-      '',
-      'Mensagem:',
-      trimmed.mensagem
-    ].join('\n');
-
     return {
-      from: 'Acme <onboarding@resend.dev>',
-      to: ['delivered@resend.dev'],
-      reply_to: trimmed.email,
-      subject: 'Novo contato recebido - Fale Conosco',
-      html,
-      text
+      nome: trimmed.nome,
+      empresa: trimmed.empresa,
+      email: trimmed.email,
+      mensagem: trimmed.mensagem
     };
   };
 
@@ -101,12 +52,11 @@ document.addEventListener('DOMContentLoaded', () => {
     form.classList.add('is-submitting');
 
     try {
-      const payload = buildEmailPayload({ nome, empresa, email, mensagem });
+      const payload = buildPayload({ nome, empresa, email, mensagem });
 
-      const response = await fetch(RESEND_ENDPOINT, {
+      const response = await fetch(CONTACT_ENDPOINT, {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${RESEND_API_KEY}`,
           'Content-Type': 'application/json',
           Accept: 'application/json'
         },
@@ -118,8 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const result = await response.json().catch(() => ({}));
-      if (!result.id) {
-        throw new Error('O serviço não confirmou o envio do email.');
+      if (!result.success) {
+        const reason = typeof result.error === 'string' ? result.error : 'O serviço não confirmou o envio do email.';
+        throw new Error(reason);
       }
 
       toggleStatus('Mensagem enviada com sucesso! Entraremos em contato em breve.', 'success');
