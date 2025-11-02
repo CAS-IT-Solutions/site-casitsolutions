@@ -558,10 +558,33 @@ footer {
   transition: background 0.2s ease, transform 0.2s ease;
 }
 
+.contact-form.is-submitting button {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .contact-form button:hover,
 .contact-form button:focus-visible {
   background: var(--color-primary-dark);
   transform: translateY(-2px);
+}
+
+.contact-form .form-status {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+
+.contact-form .form-status[data-status='loading'] {
+  color: var(--color-primary);
+}
+
+.contact-form .form-status[data-status='success'] {
+  color: #177245;
+}
+
+.contact-form .form-status[data-status='error'] {
+  color: #c7162b;
 }
 
 .footer {
