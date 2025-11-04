@@ -12,7 +12,7 @@ const publicDir = path.join(projectRoot, 'public');
 const CONTACT_EMAIL = 'cesar@casitsolutions.com.br';
 const FROM_EMAIL = 'CAS It Solutions <onboarding@resend.dev>';
 const RESEND_ENDPOINT = 'https://api.resend.com/emails';
-const RESEND_API_KEY = process.env.RESEND_API_KEY || 're_MwLJ73NS_63Ni3wR6zZbB13EFHiiagyqK';
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
 
 const escapeHtml = (value = '') =>
   String(value).replace(/[&<>"']/g, (char) =>
